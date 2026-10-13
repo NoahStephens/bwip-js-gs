@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Privacy Policy for Barcode Generator for Google Sheets.">
+  <link rel="canonical" href="https://noahstephens.github.io/bwip-js-gs/privacy-policy">
+  <title>Privacy Policy · Barcode Generator for Google Sheets</title>
+  <style>
+    :root { color-scheme: light; --ink:#202124; --muted:#5f6368; --blue:#174ea6; --line:#dadce0; --soft:#f8f9fa; --warn:#7a4d00; --warnbg:#fff7e0; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--ink); background:#fff; font:16px/1.65 Arial,Helvetica,sans-serif; }
+    header { background:#f1f6ff; border-bottom:1px solid #d2e3fc; }
+    header div, main, footer { width:min(calc(100% - 32px),860px); margin:auto; }
+    header div { padding:38px 0 30px; }
+    h1 { margin:0 0 8px; font-size:clamp(29px,5vw,42px); line-height:1.15; }
+    h2 { margin:34px 0 8px; font-size:23px; line-height:1.3; }
+    h3 { margin:24px 0 7px; font-size:18px; }
+    p, ul { margin-top:8px; }
+    li + li { margin-top:5px; }
+    a { color:var(--blue); }
+    main { padding:30px 0 55px; }
+    code { padding:2px 4px; background:var(--soft); border-radius:4px; font:.92em ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .meta { color:var(--muted); }
+    .notice { padding:14px 16px; color:var(--warn); background:var(--warnbg); border-radius:7px; }
+    .draft { padding:14px 16px; background:#fce8e6; border-radius:7px; color:#8c1d18; }
+    footer { padding:25px 0 42px; color:var(--muted); border-top:1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <header><div>
+    <p><a href="./">← Help center</a></p>
+    <h1>Privacy Policy</h1>
+    <p>Barcode Generator for Google Sheets</p>
+    <p class="meta"><strong>Effective:</strong> October 12, 2026 · <strong>Updated:</strong> October 12, 2026</p>
+  </div></header>
+  <main>
+    <p>This Privacy Policy explains how Barcode Generator for Google Sheets (the <strong>“App”</strong>), developed and maintained by Noah Stephens (the <strong>“Developer,” “we,” “us,”</strong> or <strong>“our”</strong>), accesses, uses, shares, stores, and protects information.</p>
+    <p>The App is an open-source Google Sheets Editor add-on that creates barcode image URLs and previews using bwip-js. Its source is available at <a href="https://github.com/NoahStephens/bwip-js-gs">github.com/NoahStephens/bwip-js-gs</a>.</p>
+    <p class="draft"><strong>Publisher action required:</strong> replace <code>PRIVACY_CONTACT_EMAIL</code> below with a monitored email address before publication.</p>
+
+    <h2>1. Scope</h2>
+    <p>This policy applies to the App, its Google Workspace Marketplace listing, and its help pages. It does not replace the privacy policies of Google, GitHub, jsDelivr, the bwip-js image service, or another third party.</p>
+
+    <h2>2. Information the App accesses or processes</h2>
+    <h3>Google Sheets content you choose to use</h3>
+    <p>The App processes values that you explicitly provide to a barcode formula or enter in the barcode-generator sidebar. When you use a sidebar insertion button, the App accesses the currently selected cell so it can insert an image formula, URL, or hyperlink.</p>
+    <p>The App does not automatically scan or upload the rest of your spreadsheet and does not request access to all files in Google Drive.</p>
+
+    <h3>Barcode contents and rendering settings</h3>
+    <p>To make a barcode renderable by the Google Sheets <code>IMAGE</code> function, the App creates a URL containing the text or value being encoded, barcode type, and rendering settings such as scale, rotation, colors, and format-specific options.</p>
+    <p>That URL is sent over HTTPS to <code>bwipjs-api.metafloor.com</code>, which returns a PNG image. Because the encoded value is part of the URL, it may also appear in the spreadsheet, spreadsheet revision history, browser history, caches, network proxy logs, or service logs.</p>
+    <p class="notice"><strong>Do not use the public image service to encode passwords, authentication secrets, private keys, protected health information, payment-card data, or other highly confidential information.</strong></p>
+
+    <h3>Authorization and Google account information</h3>
+    <p>The App requests only the Google authorization permissions listed in its Apps Script manifest. These allow it to display its interface and modify the spreadsheet in which it is being used. Google handles authorization. The App’s code does not request your password, retrieve your Google access token, or intentionally collect your Google profile, contacts, email messages, or files outside the current spreadsheet.</p>
+
+    <h3>Help and support information</h3>
+    <p>If you submit a GitHub issue or contact the Developer, we receive information you choose to provide, such as your GitHub username, problem description, browser details, formulas, and error messages. GitHub issues are normally public. Do not include confidential contents, credentials, personal data, or private spreadsheet links.</p>
+
+    <h3>Automatically collected information</h3>
+    <p>The Developer does not operate an analytics service, advertising tracker, or independent application server for the App, and the App does not set its own cookies. Google, GitHub, jsDelivr, and the barcode image service may independently receive ordinary technical information such as IP address, user agent, timestamps, request URLs, and diagnostic logs.</p>
+
+    <h2>3. How information is used</h2>
+    <p>Information is used only to generate requested barcode previews and URLs; insert requested content into a selected cell; provide, secure, troubleshoot, and improve the App; respond to support requests; and comply with law or protect against fraud, abuse, and security threats.</p>
+    <p>The Developer does not sell personal information, use Google user data for advertising, create advertising profiles, or permit humans to read Google user data except with the user’s explicit support request, when necessary for security, or when required by law.</p>
+
+    <h2>4. When information is shared</h2>
+    <ul>
+      <li><strong>Google:</strong> Google Sheets and Apps Script host and execute the add-on, manage authorization, and store spreadsheet content.</li>
+      <li><strong>bwip-js image service:</strong> <code>bwipjs-api.metafloor.com</code> receives barcode contents and rendering options in an HTTPS URL and returns a PNG.</li>
+      <li><strong>jsDelivr:</strong> <code>cdn.jsdelivr.net</code> provides the pinned bwip-js browser library for local previews. The App does not intentionally send barcode contents to jsDelivr.</li>
+      <li><strong>GitHub:</strong> hosts source code, documentation, and optional public support issues.</li>
+    </ul>
+    <p>Information may also be disclosed when reasonably necessary to comply with law, enforce legal rights, or protect users and the public. The Developer does not authorize these parties to use Google user data for advertising. Each party processes information under its own terms and privacy practices.</p>
+
+    <h2>5. Storage and retention</h2>
+    <p>The Developer does not operate a database or independent server that stores spreadsheet contents or generated barcodes.</p>
+    <ul>
+      <li>Barcode formulas and URLs remain in the spreadsheet until a user removes them. Google controls spreadsheet storage and revision history.</li>
+      <li>A barcode URL may remain in browser history, caches, network logs, or third-party service logs according to the applicable platform’s practices.</li>
+      <li>Support communications are retained as needed to respond, maintain support history, and improve the App.</li>
+    </ul>
+    <p>Uninstalling the App does not automatically remove formulas, URLs, images, or links already inserted into spreadsheets. Users can remove those items directly.</p>
+
+    <h2>6. Security</h2>
+    <p>The App uses HTTPS for external requests and relies on Google’s authorization and Apps Script security controls. The Developer limits requested permissions and publishes the source code for inspection. No method is completely secure; placing sensitive data in a barcode URL creates additional exposure.</p>
+
+    <h2>7. Google API Services User Data Policy</h2>
+    <p>The App’s use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its Limited Use requirements. Google user data is used only to provide or improve user-facing barcode functionality, maintain security, provide user-requested support, or comply with applicable law.</p>
+
+    <h2>8. Your choices and rights</h2>
+    <p>You can choose what to encode, avoid confidential information, delete inserted content, revoke the App’s access in Google Account security settings, uninstall the App, and ask the Developer to access, correct, or delete support information we control. Depending on your location, you may have additional rights. Data controlled by third parties must be managed through those providers.</p>
+
+    <h2>9. International processing</h2>
+    <p>Google and the third-party services above may process information in countries other than your own under their respective terms, privacy policies, and transfer mechanisms.</p>
+
+    <h2>10. Children’s privacy</h2>
+    <p>The App is a general productivity tool and is not directed to children under 13 or the minimum age required by local law. The Developer does not knowingly collect children’s personal information through the App.</p>
+
+    <h2>11. Changes to this policy</h2>
+    <p>We may update this policy when functionality, permissions, providers, or legal obligations change. The “Updated” date identifies the latest revision. If a change materially alters how Google user data is used, we will provide appropriate notice and obtain consent when required before applying the new use.</p>
+
+    <h2>12. Contact</h2>
+    <p><strong>Noah Stephens</strong><br>Email: <strong>PRIVACY_CONTACT_EMAIL</strong><br>Repository: <a href="https://github.com/NoahStephens/bwip-js-gs">github.com/NoahStephens/bwip-js-gs</a></p>
+    <p>Do not submit private information through a public GitHub issue.</p>
+  </main>
+  <footer><p><a href="../">Help center</a> · <a href="../tos">Terms of Service</a> · <a href="https://github.com/NoahStephens/bwip-js-gs">Source code</a></p></footer>
+</body>
+</html>

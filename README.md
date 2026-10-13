@@ -2,6 +2,9 @@
 
 Repository: [github.com/NoahStephens/bwip-js-gs](https://github.com/NoahStephens/bwip-js-gs)
 
+Privacy policy: [noahstephens.github.io/bwip-js-gs/privacy-policy](https://noahstephens.github.io/bwip-js-gs/privacy-policy)  
+Terms of Service: [noahstephens.github.io/bwip-js-gs/tos](https://noahstephens.github.io/bwip-js-gs/tos)
+
 This bound Google Apps Script project adds:
 
 - A **Barcodes → Open barcode generator** sidebar with the complete bwip-js symbol catalog, live canvas previews, and buttons that insert an `IMAGE` formula, URL, or hyperlink.
@@ -28,6 +31,20 @@ https://noahstephens.github.io/bwip-js-gs/
 ```
 
 Use that as the **Support URL** in the Google Workspace Marketplace listing. Before submitting a public listing, add your real support contact and link the page to your separate privacy policy and terms of service.
+
+The Marketplace privacy-policy URL is:
+
+```text
+https://noahstephens.github.io/bwip-js-gs/privacy-policy
+```
+
+The Terms of Service URL is:
+
+```text
+https://noahstephens.github.io/bwip-js-gs/tos
+```
+
+Before publishing, replace every `PRIVACY_CONTACT_EMAIL` and `LEGAL_CONTACT_EMAIL` placeholder and choose the `GOVERNING_LAW_JURISDICTION` in the Markdown and HTML legal documents. The public HTML pages and repository Markdown copies should stay substantively identical.
 
 ## Push to GitHub
 
