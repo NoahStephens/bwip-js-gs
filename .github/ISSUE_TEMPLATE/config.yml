@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Barcode format documentation
+    url: https://github.com/metafloor/bwip-js
+    about: Check bwip-js documentation for format-specific data and options.
+

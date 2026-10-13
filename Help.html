@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Help and formula reference for the bwip-js Barcode Generator for Google Sheets.">
+  <link rel="canonical" href="https://noahstephens.github.io/bwip-js-gs/">
+  <title>Barcode Generator Help</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202124;
+      --muted: #5f6368;
+      --blue: #1a73e8;
+      --blue-dark: #174ea6;
+      --line: #dadce0;
+      --soft: #f8f9fa;
+      --code: #eef3fd;
+      --warning: #7a4d00;
+      --warning-bg: #fff7e0;
+      --max: 920px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font: 16px/1.6 Arial, Helvetica, sans-serif;
+    }
+    header {
+      color: #fff;
+      background: linear-gradient(135deg, #1558b0, #1a73e8 60%, #4f8df5);
+    }
+    .hero, main, footer { width: min(calc(100% - 32px), var(--max)); margin: auto; }
+    .hero { padding: 54px 0 48px; }
+    h1 { margin: 0 0 10px; font-size: clamp(29px, 5vw, 45px); line-height: 1.12; }
+    .tagline { max-width: 670px; margin: 0; color: #e8f0fe; font-size: 18px; }
+    nav { margin-top: 25px; display: flex; flex-wrap: wrap; gap: 9px; }
+    nav a {
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+    }
+    nav a:hover { background: rgba(255,255,255,.12); }
+    main { padding: 34px 0 58px; }
+    section { padding: 15px 0 24px; border-bottom: 1px solid var(--line); }
+    section:last-child { border-bottom: 0; }
+    h2 { margin: 0 0 13px; font-size: 25px; line-height: 1.25; }
+    h3 { margin: 25px 0 7px; font-size: 18px; }
+    p, ul, ol { margin-top: 8px; }
+    li + li { margin-top: 5px; }
+    a { color: var(--blue-dark); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 12px; }
+    .card { padding: 17px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .card h3 { margin-top: 0; }
+    pre {
+      margin: 10px 0;
+      padding: 13px;
+      overflow-x: auto;
+      background: var(--code);
+      border-radius: 7px;
+      font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    code { font: .92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    :not(pre) > code { padding: 2px 4px; background: var(--soft); border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { padding: 10px; text-align: left; vertical-align: top; border: 1px solid var(--line); }
+    th { background: var(--soft); }
+    .notice { padding: 13px 15px; color: var(--warning); background: var(--warning-bg); border-radius: 7px; }
+    details { padding: 12px 0; border-top: 1px solid var(--line); }
+    details:first-of-type { border-top: 0; }
+    summary { cursor: pointer; font-weight: 700; }
+    .button {
+      display: inline-block;
+      padding: 9px 14px;
+      color: #fff;
+      background: var(--blue);
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    footer { padding: 25px 0 42px; color: var(--muted); border-top: 1px solid var(--line); }
+    @media (max-width: 520px) {
+      .hero { padding: 36px 0; }
+      th:nth-child(3), td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <h1>Barcode Generator Help</h1>
+      <p class="tagline">Create QR codes and more than 100 other barcode formats directly in Google Sheets with bwip-js.</p>
+      <nav aria-label="Help topics">
+        <a href="#quick-start">Quick start</a>
+        <a href="#formulas">Formulas</a>
+        <a href="#sidebar">Sidebar</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+        <a href="#privacy">Privacy</a>
+        <a href="https://github.com/NoahStephens/bwip-js-gs" rel="noopener">Source code</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="quick-start">
+      <h2>Quick start</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Use a formula</h3>
+          <p>Put the value you want to encode in <code>A2</code>, then enter:</p>
+          <pre>=IMAGE(BWIP_QRCODE(A2))</pre>
+        </article>
+        <article class="card">
+          <h3>Use the generator</h3>
+          <p>Open <strong>Barcodes → Open barcode generator</strong>, choose a type, enter the contents, and select <strong>Insert IMAGE</strong>.</p>
+        </article>
+        <article class="card">
+          <h3>Create many at once</h3>
+          <p>Pass a range to a barcode function. The URLs spill into the neighboring cells:</p>
+          <pre>=BWIP_QRCODE(A2:A20)</pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="formulas">
+      <h2>Formula reference</h2>
+      <p>Every named function follows the same format:</p>
+      <pre>BWIP_TYPE(text, [options], [scale], [rotate])</pre>
+      <table>
+        <thead><tr><th>Argument</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>text</code></td><td>The value or cell to encode.</td><td><code>A2</code></td></tr>
+          <tr><td><code>options</code></td><td>Optional bwip-js/BWIPP settings separated by spaces.</td><td><code>"includetext textxalign=center"</code></td></tr>
+          <tr><td><code>scale</code></td><td>A positive whole-number image scale. Default: 2.</td><td><code>3</code></td></tr>
+          <tr><td><code>rotate</code></td><td><code>N</code>, <code>R</code>, <code>L</code>, or <code>I</code>.</td><td><code>"R"</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Common examples</h3>
+      <pre>=IMAGE(BWIP_QRCODE(A2))</pre>
+      <pre>=IMAGE(BWIP_CODE128(A2, "includetext", 3))</pre>
+      <pre>=IMAGE(BWIP_DATAMATRIX(A2, "eclevel=200", 3))</pre>
+      <pre>=HYPERLINK(BWIP_PDF417(A2), "Open barcode")</pre>
+
+      <h3>Generic function</h3>
+      <p>Use <code>BWIP_URL</code> when you know the bwip-js barcode identifier:</p>
+      <pre>=BWIP_URL("azteccode", A2, "eclevel=23", 3, "N")</pre>
+
+      <h3>Popular named functions</h3>
+      <p><code>BWIP_QRCODE</code>, <code>BWIP_CODE128</code>, <code>BWIP_CODE39</code>, <code>BWIP_DATAMATRIX</code>, <code>BWIP_PDF417</code>, <code>BWIP_AZTECCODE</code>, <code>BWIP_EAN13</code>, <code>BWIP_UPCA</code>, and <code>BWIP_GS1_128</code>.</p>
+      <p>The sidebar contains the complete list and fills in a sample value and recommended options for each type.</p>
+    </section>
+
+    <section id="sidebar">
+      <h2>Using the sidebar</h2>
+      <ol>
+        <li>Select the destination cell in the spreadsheet.</li>
+        <li>Open <strong>Barcodes → Open barcode generator</strong>.</li>
+        <li>Choose a barcode type and enter the contents.</li>
+        <li>Adjust scale, rotation, colors, or advanced BWIPP options.</li>
+        <li>Choose <strong>Insert IMAGE</strong>, <strong>Insert URL</strong>, or <strong>Insert link</strong>.</li>
+      </ol>
+      <p>The canvas preview is rendered locally in the sidebar using bwip-js. The inserted value uses an HTTPS PNG URL so Google Sheets can display it.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <details open>
+        <summary>The cell is blank or displays #N/A</summary>
+        <p>Confirm the source cell is not empty, the barcode type accepts the supplied value, and your network permits images from <code>bwipjs-api.metafloor.com</code>. Try opening the returned URL directly.</p>
+      </details>
+      <details>
+        <summary>The sidebar says bwip-js could not be loaded</summary>
+        <p>Your network or Google Workspace content policy may be blocking <code>cdn.jsdelivr.net</code>. Ask your administrator to allow that domain, then close and reopen the sidebar.</p>
+      </details>
+      <details>
+        <summary>The barcode is too small or too large</summary>
+        <p>Change the scale argument or the sidebar’s horizontal and vertical scale settings. Barcodes grow in fixed module increments, so not every exact pixel size is possible.</p>
+      </details>
+      <details>
+        <summary>The scanner cannot read the barcode</summary>
+        <p>Increase the scale, keep strong contrast, avoid resizing the rendered cell image, and verify that the selected barcode standard accepts the encoded characters. Printed output should retain a clear quiet zone around the symbol.</p>
+      </details>
+      <details>
+        <summary>A formula is not recognized</summary>
+        <p>Verify that the add-on is installed and enabled in this spreadsheet. Function names begin with <code>BWIP_</code>. Some spreadsheet locales use semicolons instead of commas between formula arguments.</p>
+      </details>
+    </section>
+
+    <section id="privacy">
+      <h2>Privacy and data handling</h2>
+      <div class="notice"><strong>Do not encode secrets.</strong> Barcode contents are included in an HTTPS request URL sent to the public bwip-js image service. URLs may appear in spreadsheet history, browser history, caches, proxy logs, or service logs.</div>
+      <ul>
+        <li>The add-on does not automatically read or upload the rest of your spreadsheet.</li>
+        <li>The selected barcode contents and rendering options are sent to <code>bwipjs-api.metafloor.com</code> when a PNG is requested.</li>
+        <li>The sidebar downloads the pinned bwip-js browser library from <code>cdn.jsdelivr.net</code> for local previews.</li>
+        <li>Your organization may block either external service through its Workspace or network policy.</li>
+      </ul>
+    </section>
+
+    <section id="support">
+      <h2>Support</h2>
+      <p>If the steps above do not resolve the problem, <a class="button" href="https://github.com/NoahStephens/bwip-js-gs/issues/new/choose" rel="noopener">Open a support issue</a></p>
+      <p>Include the barcode type, formula or options used, and the full error message. Do not include confidential barcode contents or private spreadsheet links.</p>
+      <p>For barcode-specific option documentation, see the <a href="https://github.com/metafloor/bwip-js" rel="noopener">bwip-js project documentation</a>.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p><a href="https://github.com/NoahStephens/bwip-js-gs">Source code</a> · Powered by the open-source bwip-js project.</p>
+  </footer>
+</body>
+</html>

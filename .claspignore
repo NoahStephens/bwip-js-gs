@@ -1,0 +1,8 @@
+# Repository-only files that should not be uploaded to Apps Script.
+docs/**
+.github/**
+README.md
+.gitignore
+.claspignore
+.clasp.json.example
+

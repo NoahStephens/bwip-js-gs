@@ -1,0 +1,328 @@
+<!doctype html>
+<html>
+<head>
+  <base target="_blank">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The UMD browser build intentionally creates the global `bwipjs` object. -->
+  <script src="https://cdn.jsdelivr.net/npm/bwip-js@4.11.4/dist/bwip-js-min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202124;
+      --muted: #5f6368;
+      --line: #dadce0;
+      --blue: #1a73e8;
+      --blue-dark: #1558b0;
+      --surface: #fff;
+      --soft: #f8f9fa;
+      --danger: #b3261e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px;
+      color: var(--ink);
+      background: var(--surface);
+      font: 13px/1.45 Arial, sans-serif;
+    }
+    h1 { margin: 0 0 3px; font-size: 18px; font-weight: 600; }
+    .sub { margin: 0 0 16px; color: var(--muted); }
+    label { display: block; margin: 11px 0 4px; font-weight: 600; }
+    input, select, textarea, button { font: inherit; }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 8px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    textarea { min-height: 62px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #d2e3fc;
+      border-color: var(--blue);
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .check { display: flex; gap: 7px; align-items: center; margin-top: 10px; }
+    .check label { margin: 0; font-weight: 400; }
+    .preview {
+      display: grid;
+      place-items: center;
+      min-height: 150px;
+      margin: 15px 0 10px;
+      padding: 12px;
+      overflow: auto;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+    canvas { max-width: 100%; height: auto; }
+    .url { min-height: 56px; font: 11px/1.35 monospace; overflow-wrap: anywhere; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; }
+    button, .button-link {
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+    button:hover, .button-link:hover { background: #f1f3f4; }
+    button.primary { color: #fff; background: var(--blue); border-color: var(--blue); }
+    button.primary:hover { background: var(--blue-dark); }
+    button:disabled { opacity: .55; cursor: default; }
+    .status { min-height: 20px; margin-top: 9px; color: var(--muted); }
+    .status.error { color: var(--danger); }
+    details { margin-top: 14px; }
+    summary { cursor: pointer; font-weight: 600; }
+    code { padding: 1px 3px; background: var(--soft); border-radius: 3px; }
+    .version { margin-top: 10px; color: var(--muted); font-size: 11px; }
+  </style>
+</head>
+<body>
+  <h1>Barcode generator</h1>
+  <p class="sub">Live preview powered by bwip-js. Insert a PNG URL, link, or <code>IMAGE</code> formula into the selected cell.</p>
+
+  <label for="symbol">Barcode type</label>
+  <select id="symbol" disabled><option>Loading bwip-js…</option></select>
+
+  <label for="text">Contents</label>
+  <textarea id="text" spellcheck="false">Hello from Google Sheets</textarea>
+
+  <label for="alttext">Alternate display text</label>
+  <input id="alttext" type="text" placeholder="Optional">
+
+  <label for="options">BWIPP options</label>
+  <textarea id="options" spellcheck="false" placeholder="eclevel=M includetext"></textarea>
+
+  <div class="grid">
+    <div>
+      <label for="scaleX">Horizontal scale</label>
+      <input id="scaleX" type="number" min="1" max="10" step="1" value="3">
+    </div>
+    <div>
+      <label for="scaleY">Vertical scale</label>
+      <input id="scaleY" type="number" min="1" max="10" step="1" value="3">
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <label for="rotate">Rotation</label>
+      <select id="rotate">
+        <option value="N">Normal</option>
+        <option value="R">90° right</option>
+        <option value="L">90° left</option>
+        <option value="I">180°</option>
+      </select>
+    </div>
+    <div>
+      <label for="barcolor">Bar color</label>
+      <input id="barcolor" type="text" value="000000" maxlength="7">
+    </div>
+  </div>
+
+  <label for="backgroundcolor">Background color</label>
+  <input id="backgroundcolor" type="text" value="ffffff" maxlength="7">
+
+  <div class="check">
+    <input id="includetext" type="checkbox">
+    <label for="includetext">Show human-readable text</label>
+  </div>
+
+  <div class="preview"><canvas id="canvas" aria-label="Barcode preview"></canvas></div>
+  <textarea id="url" class="url" readonly aria-label="Generated barcode URL"></textarea>
+
+  <div class="actions">
+    <button class="primary" data-mode="image">Insert IMAGE</button>
+    <button data-mode="url">Insert URL</button>
+    <button data-mode="link">Insert link</button>
+    <button id="copy" type="button">Copy URL</button>
+    <a id="open" class="button-link" href="#" target="_blank" rel="noopener">Open PNG</a>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <details>
+    <summary>Sheets formula examples</summary>
+    <p><code>=IMAGE(BWIP_QRCODE(A2))</code></p>
+    <p><code>=IMAGE(BWIP_CODE128(A2,"includetext",3))</code></p>
+    <p><code>=BWIP_URL("datamatrix",A2)</code></p>
+  </details>
+  <div id="version" class="version"></div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      var byId = function(id) { return document.getElementById(id); };
+      var symbol = byId('symbol');
+      var status = byId('status');
+      var timer;
+
+      function setStatus(message, isError) {
+        status.textContent = message || '';
+        status.className = 'status' + (isError ? ' error' : '');
+      }
+
+      function normalizeColor(value) {
+        return String(value || '').trim().replace(/^#/, '');
+      }
+
+      function parseOptions(raw) {
+        var result = {};
+        raw = String(raw || '').trim();
+        if (!raw) return result;
+        if (raw.charAt(0) === '{') return JSON.parse(raw);
+        raw.split(/[&\s]+/).filter(Boolean).forEach(function(token) {
+          var at = token.indexOf('=');
+          if (at < 0) result[token] = true;
+          else result[token.slice(0, at)] = token.slice(at + 1);
+        });
+        return result;
+      }
+
+      function currentOptions() {
+        var options = parseOptions(byId('options').value);
+        options.bcid = symbol.value;
+        options.text = byId('text').value;
+        options.scaleX = Math.max(1, parseInt(byId('scaleX').value, 10) || 2);
+        options.scaleY = Math.max(1, parseInt(byId('scaleY').value, 10) || options.scaleX);
+        options.rotate = byId('rotate').value;
+        var alt = byId('alttext').value;
+        if (alt) options.alttext = alt;
+        if (byId('includetext').checked) options.includetext = true;
+        var bar = normalizeColor(byId('barcolor').value);
+        var background = normalizeColor(byId('backgroundcolor').value);
+        if (bar) options.barcolor = bar;
+        if (background) options.backgroundcolor = background;
+        return options;
+      }
+
+      function appendApiOption(parts, key, value) {
+        if (/^(bcid|text|scale|scaleX|scaleY|rotate)$/i.test(key)) return;
+        if (value === true || String(value).toLowerCase() === 'true') {
+          parts.push(encodeURIComponent(key));
+        } else if (value !== false && String(value).toLowerCase() !== 'false' && value !== '') {
+          parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(String(value)));
+        }
+      }
+
+      function buildUrl(options) {
+        var parts = [
+          'bcid=' + encodeURIComponent(options.bcid),
+          'text=' + encodeURIComponent(options.text)
+        ];
+        Object.keys(options).forEach(function(key) {
+          appendApiOption(parts, key, options[key]);
+        });
+        if (options.scaleX === options.scaleY) parts.push('scale=' + options.scaleX);
+        else {
+          parts.push('scaleX=' + options.scaleX);
+          parts.push('scaleY=' + options.scaleY);
+        }
+        if (options.rotate !== 'N') parts.push('rotate=' + options.rotate);
+        return 'https://bwipjs-api.metafloor.com/?' + parts.join('&');
+      }
+
+      function render() {
+        try {
+          if (!window.bwipjs) throw new Error('bwip-js did not load. Check your network or Workspace content policy.');
+          var options = currentOptions();
+          if (!options.text) throw new Error('Enter contents to encode.');
+          window.bwipjs.toCanvas('canvas', options);
+          var url = buildUrl(options);
+          byId('url').value = url;
+          byId('open').href = url;
+          setStatus('Preview ready.');
+        } catch (error) {
+          byId('url').value = '';
+          byId('open').href = '#';
+          setStatus(String(error && error.message ? error.message : error), true);
+        }
+      }
+
+      function queueRender() {
+        clearTimeout(timer);
+        timer = setTimeout(render, 180);
+      }
+
+      function selectSymbol() {
+        var selected = window.bwipjs.symbolList.filter(function(item) {
+          return item.bcid === symbol.value;
+        })[0];
+        if (selected) {
+          byId('text').value = selected.text || '';
+          byId('options').value = selected.opts || '';
+        }
+        byId('alttext').value = '';
+        queueRender();
+      }
+
+      function init() {
+        if (!window.bwipjs || !window.bwipjs.symbolList) {
+          setStatus('bwip-js could not be loaded.', true);
+          return;
+        }
+        var items = window.bwipjs.symbolList.slice().sort(function(a, b) {
+          return a.desc.localeCompare(b.desc);
+        });
+        symbol.innerHTML = '';
+        items.forEach(function(item) {
+          var option = document.createElement('option');
+          option.value = item.bcid;
+          option.textContent = item.desc + ' (' + item.bcid + ')';
+          symbol.appendChild(option);
+        });
+        symbol.disabled = false;
+        symbol.value = 'qrcode';
+        byId('version').textContent = 'bwip-js ' + window.bwipjs.BWIPJS_VERSION + ' · BWIPP ' + window.bwipjs.BWIPP_VERSION;
+        render();
+      }
+
+      document.querySelectorAll('input, textarea, select').forEach(function(element) {
+        if (element.id !== 'symbol' && element.id !== 'url') {
+          element.addEventListener('input', queueRender);
+          element.addEventListener('change', queueRender);
+        }
+      });
+      symbol.addEventListener('change', selectSymbol);
+
+      document.querySelectorAll('[data-mode]').forEach(function(button) {
+        button.addEventListener('click', function() {
+          var url = byId('url').value;
+          if (!url) return setStatus('Generate a valid barcode first.', true);
+          setStatus('Inserting…');
+          google.script.run
+            .withSuccessHandler(function(cell) { setStatus('Inserted in ' + cell + '.'); })
+            .withFailureHandler(function(error) { setStatus(error.message || String(error), true); })
+            .insertBarcodeFromSidebar(url, button.getAttribute('data-mode'));
+        });
+      });
+
+      byId('copy').addEventListener('click', function() {
+        var field = byId('url');
+        if (!field.value) return setStatus('Generate a valid barcode first.', true);
+        field.focus();
+        field.select();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(field.value).then(function() { setStatus('URL copied.'); });
+          } else {
+            document.execCommand('copy');
+            setStatus('URL copied.');
+          }
+        } catch (error) {
+          setStatus('Select the URL and copy it manually.', true);
+        }
+      });
+
+      window.addEventListener('load', init);
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a formula, sidebar, rendering, or installation problem.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Do not include confidential barcode contents or private spreadsheet links.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Sheets custom function
+        - Barcode generator sidebar
+        - Add-on installation or authorization
+        - GitHub help page
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: barcode
+    attributes:
+      label: Barcode type
+      placeholder: qrcode, code128, datamatrix, etc.
+  - type: textarea
+    id: formula
+    attributes:
+      label: Formula or rendering options
+      description: Remove or replace any private encoded value.
+      render: text
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the complete error message and what you expected instead.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and operating system
+      placeholder: Chrome 140 on macOS
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed confidential barcode contents and private spreadsheet links.
+          required: true
