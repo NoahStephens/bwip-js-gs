@@ -7,8 +7,6 @@ This Privacy Policy explains how Barcode Generator for Google Sheets (the **“A
 
 The App is an open-source Google Sheets Editor add-on that creates barcode image URLs and previews using bwip-js. Its source code is available at [github.com/NoahStephens/bwip-js-gs](https://github.com/NoahStephens/bwip-js-gs).
 
-> **Before publishing:** Replace `PRIVACY_CONTACT_EMAIL` in this policy with a monitored email address. Review this policy whenever the App’s code, hosting, permissions, or third-party services change.
-
 ## 1. Scope
 
 This policy applies to the App, its Google Workspace Marketplace listing, and the help pages hosted for the App. It does not replace the privacy policies of Google, GitHub, jsDelivr, the bwip-js image service, or any other third-party service.
@@ -122,7 +120,7 @@ We may update this policy when the App’s functionality, permissions, service p
 For privacy questions or requests, contact:
 
 **Noah Stephens**  
-Email: **PRIVACY_CONTACT_EMAIL**  
+Email: **noahstephens@fastmail.com**  
 Source repository: [github.com/NoahStephens/bwip-js-gs](https://github.com/NoahStephens/bwip-js-gs)
 
 Do not submit private information through a public GitHub issue.

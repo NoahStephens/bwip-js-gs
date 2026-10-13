@@ -5,8 +5,6 @@
 
 These Terms of Service (**“Terms”**) govern your installation of and access to Barcode Generator for Google Sheets (the **“App”**), developed and maintained by Noah Stephens (the **“Developer,” “we,” “us,”** or **“our”**). By installing, accessing, or using the App, you agree to these Terms. If you do not agree, do not install or use the App.
 
-> **Before publishing:** Replace `LEGAL_CONTACT_EMAIL` with a monitored email address and `GOVERNING_LAW_JURISDICTION` with the jurisdiction chosen after obtaining legal advice.
-
 ## 1. The App
 
 The App is an open-source Google Sheets Editor add-on that creates barcode previews and image URLs using bwip-js. It includes spreadsheet custom functions and a sidebar interface. The App relies on Google Sheets, Google Apps Script, jsDelivr, and the public bwip-js image service.
@@ -97,9 +95,7 @@ These limitations do not apply where prohibited by law and do not limit liabilit
 
 To the extent permitted by law, if you use the App on behalf of a business or organization, that organization will defend, indemnify, and hold harmless the Developer and contributors from third-party claims, damages, liabilities, costs, and reasonable legal fees arising from its User Content, misuse of the App, or violation of these Terms or another person’s rights. This section does not apply to individual consumers where prohibited by law.
 
-## 15. Governing law and disputes
-
-These Terms are governed by the laws of **GOVERNING_LAW_JURISDICTION**, without regard to conflict-of-law principles. Courts located in **GOVERNING_LAW_JURISDICTION** will have exclusive jurisdiction over disputes, except where applicable consumer law provides otherwise.
+## 15. Disputes
 
 Before filing a claim, each party agrees to make a good-faith effort to resolve the dispute informally by written notice and at least 30 days for a response.
 
@@ -116,7 +112,7 @@ These Terms and the Privacy Policy form the agreement between you and the Develo
 Questions about these Terms may be sent to:
 
 **Noah Stephens**  
-Email: **LEGAL_CONTACT_EMAIL**  
+Email: **noahstephens@fastmail.com**  
 Repository: [github.com/NoahStephens/bwip-js-gs](https://github.com/NoahStephens/bwip-js-gs)
 
 Do not submit private information through a public GitHub issue.
